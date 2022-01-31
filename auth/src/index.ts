@@ -6,6 +6,7 @@ const me = '3';
 
 const start = async () => {
 	const test = 3;
+	let me = 2;
 	if (!PORT) throw new Error('No port run Auth service on');
 
 	app.listen(PORT, () => console.log(`Auth server is listening on port ${PORT}`));
