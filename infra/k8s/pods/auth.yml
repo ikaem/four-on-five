@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Pod
-metadata:
-  name: auth
-spec:
-  containers:
-    - name: auth
-      image: four-on-five/auth:0.0.1
-      imagePullPolicy: Never
