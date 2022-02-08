@@ -1,1 +1,1 @@
-export { PORT } from './config';
+export { PORT, NODE_ENV } from './config';

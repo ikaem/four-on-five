@@ -1,0 +1,19 @@
+const path = require('path');
+module.exports = {
+	config: path.resolve('./src/services/database/config', 'database.config.js'),
+	'models-path': path.resolve('./src/services/database/models'),
+	'seeders-path': path.resolve('./src/services/database/seeders'),
+	'migrations-path': path.resolve('./src/services/database/migrations'),
+};
+
+// TODO if want for ts to recognize? Delete dot. Rename the .sequelizerc to sequelizerc
+/* 
+or this 
+{
+ ..prev configs...,
+include: [ ...your paths..., ".sequelizerc"],
+
+}
+
+
+*/
