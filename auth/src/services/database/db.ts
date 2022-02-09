@@ -2,15 +2,23 @@ import Knex from 'knex';
 import { Model } from 'objection';
 import { dbConfigs, ExecutionEnvironment } from './config';
 
-export const db = (environment: ExecutionEnvironment) => {
-	const db = Knex(dbConfigs[environment]);
+function Database(environment: ExecutionEnvironment) {
+	const dbInstance = Knex(dbConfigs[environment]);
 
 	return {
-		connect() {
-			Model.knex(db);
+		connectModels() {
+			Model.knex(dbInstance);
 		},
-		disconnect() {
-			db.destroy();
+		async migrateLatest() {
+			await dbInstance.migrate.latest({
+				directory: './src/services/database/migrations',
+			});
+		},
+		disconnectDbInstance() {
+			dbInstance.destroy();
 		},
 	};
-};
+}
+
+// TODO need real env variables here
+export const db = Database(ExecutionEnvironment.DEVELOPMENT);

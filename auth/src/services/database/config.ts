@@ -8,6 +8,7 @@ export enum ExecutionEnvironment {
 }
 
 // TODO this should come from env variables, and those should be provided later by kubernets config
+// this could be a function, so it does connect only after the server starts
 const defaultConfig: Knex.Config = {
 	client: 'pg',
 	connection: {

@@ -1,16 +1,18 @@
-import { JSONSchema, Model, ModelObject } from 'objection';
+import { JSONSchema, Model, ModelObject, RelationMappings, RelationMappingsThunk } from 'objection';
+import { Auth } from './auth';
 
 interface BuildUserArgs {
 	firstName: string;
 	lastName: string;
 }
 
-interface IUser {
+interface UserAttributes {
 	id: number;
 	first_name: string;
 	last_name: string;
+	// TODO should add created dates too
 }
-export class User extends Model implements IUser {
+export class User extends Model implements UserAttributes {
 	id!: number;
 	first_name!: string;
 	last_name!: string;
@@ -41,15 +43,18 @@ export class User extends Model implements IUser {
 			},
 		};
 	}
-	// TODO jsut adding comment here to add relations from auth to there
-	// but also, to later add relations between matches and participations for isntance?
-	// particupations should probably be in the same microsetvice as the matches
 
-	// static getColumnNameMappers() {
-	// 	// TODO this might be needed later
-	// 	// return snakeCaseMappers();
-	// 	return this.columnNameMappers;
-	// }
+	static relationMappings: RelationMappings | RelationMappingsThunk = {
+		auth: {
+			// used to point to table with foreign key that matches this table's primary key - but is one to one
+			relation: Model.HasOneRelation,
+			modelClass: Auth,
+			join: {
+				from: 'users.id',
+				to: 'auth.user_id',
+			},
+		},
+	};
 
 	static buildUser = async ({ firstName, lastName }: BuildUserArgs) => {
 		const user = await this.query().insert({
@@ -60,5 +65,3 @@ export class User extends Model implements IUser {
 		return user;
 	};
 }
-
-// type UserShape = ModelObject<User>;

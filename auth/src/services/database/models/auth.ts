@@ -1,4 +1,5 @@
-import { Model, JSONSchema } from 'objection';
+import { Model, JSONSchema, RelationMappings, RelationMappingsThunk } from 'objection';
+import { User } from '..';
 
 // TODO not sure if this should stay here
 enum AuthType {
@@ -13,10 +14,30 @@ interface BuildAuthArgs {
 	password: string;
 	authType: AuthType;
 	// TODO not sure if it should be date - also, want not to have to pass it in
+	// it should probably need to pass it in
 	lastLogin: Date;
 }
 
-export class Auth extends Model {
+interface AuthAttributes {
+	id: number;
+	user_id: number;
+	email: string;
+	password?: string;
+	auth_type: AuthType;
+	// TODO or is this date
+	last_login: Date;
+	// TODO should add created dates too
+}
+
+export class Auth extends Model implements AuthAttributes {
+	id!: number;
+	user_id!: number;
+	email!: string;
+	password?: string;
+	auth_type!: AuthType;
+	// TODO or is this date
+	last_login!: Date;
+
 	static get tableName() {
 		return 'auth';
 	}
@@ -63,6 +84,18 @@ export class Auth extends Model {
 			},
 		};
 	}
+
+	static relationMappings: RelationMappings | RelationMappingsThunk = {
+		user: {
+			// used to point to table with primary key that matches this table's foreign key - but is one to one
+			relation: Model.BelongsToOneRelation,
+			modelClass: User,
+			join: {
+				from: 'auth.user_id',
+				to: 'users.id',
+			},
+		},
+	};
 
 	// TODO this will need to have relations with the user
 

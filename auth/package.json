@@ -7,7 +7,9 @@
 		"test": "DO WRITE TESTS TODO",
 		"dev": "cross-env NODE_ENV=development ts-node-dev src/server.ts",
 		"build": "rimraf dist && tsc",
-		"start": "cross-env NODE_ENV=production node dist/server.js"
+		"start": "cross-env NODE_ENV=production node dist/server.js",
+		"db:migration-run-dev": "knex --knexfile ./src/services/database/knexfile.ts migrate:latest",
+		"db:migration-generate": "knex --knexfile ./src/services/database/knexfile.ts migrate:make -x ts"
 	},
 	"keywords": [],
 	"author": "",
