@@ -10,6 +10,8 @@ import { gqlServer } from './graphql/server';
 
 const start = async () => {
 	if (!PORT) throw new Error('No port run Auth service on');
+
+	// here call the pg api wapper
 	// TODO check here for env variables needed for db
 
 	// await db(ExecutionEnvironment.DEVELOPMENT).connect().migrateLatest();
