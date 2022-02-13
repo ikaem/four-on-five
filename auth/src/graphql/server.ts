@@ -1,8 +1,8 @@
 // import { ContextFunction } from 'apollo-server-core';
 import { ContextFunction } from 'apollo-server-core';
 import { ApolloServer, Config, ExpressContext } from 'apollo-server-express';
-import { setters } from '../services/database/controllers';
-import { Setters } from '../services/database/controllers/setters';
+import { setters } from '../services/database/api';
+import { Setters } from '../services/database/api/setters';
 import { schema } from './schema/schema';
 
 export interface GQLContext {

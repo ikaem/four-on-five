@@ -1,5 +1,5 @@
 import { GraphQLFieldResolver } from 'graphql';
-import { UserSignupArgs } from '../../../../services/database/controllers/setters';
+import { UserSignupArgs } from '../../../../services/database/api/setters';
 import { GQLContext } from '../../../server';
 import { UserAuthResponse } from '../../type-defs/types/user-auth-type';
 
