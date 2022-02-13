@@ -4,11 +4,13 @@ import { dbConfigs, ExecutionEnvironment } from './config';
 
 function Database(environment: ExecutionEnvironment) {
 	const dbInstance = Knex(dbConfigs[environment]);
+	Model.knex(dbInstance);
 
 	return {
-		connectModels() {
-			Model.knex(dbInstance);
-		},
+		// TODO connecting straight here
+		// connectModels() {
+		// 	Model.knex(dbInstance);
+		// },
 		async migrateLatest() {
 			await dbInstance.migrate.latest({
 				directory: './src/services/database/migrations',
@@ -17,6 +19,7 @@ function Database(environment: ExecutionEnvironment) {
 		disconnectDbInstance() {
 			dbInstance.destroy();
 		},
+		dbInstance,
 	};
 }
 

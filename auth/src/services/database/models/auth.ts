@@ -1,8 +1,8 @@
 import { Model, JSONSchema, RelationMappings, RelationMappingsThunk } from 'objection';
-import { User } from '..';
+import { User } from './user';
 
 // TODO not sure if this should stay here
-enum AuthType {
+export enum AuthType {
 	FACEBOOK = 'FACEBOOK',
 	GOOGLE = 'GOOGLE',
 	PASSWORD = 'PASSWORD',
@@ -11,7 +11,7 @@ enum AuthType {
 interface BuildAuthArgs {
 	userId: number;
 	email: string;
-	password: string;
+	password?: string;
 	authType: AuthType;
 	// TODO not sure if it should be date - also, want not to have to pass it in
 	// it should probably need to pass it in
@@ -85,17 +85,18 @@ export class Auth extends Model implements AuthAttributes {
 		};
 	}
 
-	static relationMappings: RelationMappings | RelationMappingsThunk = {
-		user: {
-			// used to point to table with primary key that matches this table's foreign key - but is one to one
-			relation: Model.BelongsToOneRelation,
-			modelClass: User,
-			join: {
-				from: 'auth.user_id',
-				to: 'users.id',
-			},
-		},
-	};
+	// TODO this is not good
+	// static relationMappings: RelationMappings | RelationMappingsThunk = {
+	// 	user: {
+	// 		// used to point to table with primary key that matches this table's foreign key - but is one to one
+	// 		relation: Model.BelongsToOneRelation,
+	// 		modelClass: User,
+	// 		join: {
+	// 			from: 'auth.user_id',
+	// 			to: 'users.id',
+	// 		},
+	// 	},
+	// };
 
 	// TODO this will need to have relations with the user
 

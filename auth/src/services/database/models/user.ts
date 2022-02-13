@@ -44,17 +44,17 @@ export class User extends Model implements UserAttributes {
 		};
 	}
 
-	static relationMappings: RelationMappings | RelationMappingsThunk = {
-		auth: {
-			// used to point to table with foreign key that matches this table's primary key - but is one to one
-			relation: Model.HasOneRelation,
-			modelClass: Auth,
-			join: {
-				from: 'users.id',
-				to: 'auth.user_id',
-			},
-		},
-	};
+	// static relationMappings: RelationMappings | RelationMappingsThunk = {
+	// 	auth: {
+	// 		// used to point to table with foreign key that matches this table's primary key - but is one to one
+	// 		relation: Model.HasOneRelation,
+	// 		modelClass: Auth,
+	// 		join: {
+	// 			from: 'users.id',
+	// 			to: 'auth.user_id',
+	// 		},
+	// 	},
+	// };
 
 	static buildUser = async ({ firstName, lastName }: BuildUserArgs) => {
 		const user = await this.query().insert({

@@ -5,6 +5,8 @@ import { ExecutionEnvironment } from './services/database/config';
 
 // TODO for testing only
 import { faker } from '@faker-js/faker';
+import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
+import { gqlServer } from './graphql/server';
 
 const start = async () => {
 	if (!PORT) throw new Error('No port run Auth service on');
@@ -13,12 +15,17 @@ const start = async () => {
 	// await db(ExecutionEnvironment.DEVELOPMENT).connect().migrateLatest();
 	// const data
 
-	db.connectModels();
-	console.log('');
+	// db.connectModels();
+	// console.log('');
 	await db.migrateLatest();
 
 	// await addRandomUserOnly();
 
+	await gqlServer.start();
+	// TODO could also probably set the path
+	gqlServer.applyMiddleware({ app });
+
+	// TODO could use th actual server here, but stephen girder did it like it it seems - do check!
 	app.listen(PORT, () => console.log(`Auth server is listening on port ${PORT}!`));
 };
 
