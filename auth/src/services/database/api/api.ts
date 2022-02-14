@@ -1,12 +1,9 @@
-import { ExecutionEnvironment } from '../config';
 import { pgClient } from '../db';
-import { getSetters } from './setters';
+import { getDbSetters } from './setters';
 
 // const
 
-const pgApiWrapper = async (environment: ExecutionEnvironment) => {
-	// const { query, getClient } = await getPgClient(environment);
-
+export const pgApiWrapper = async () => {
 	const {
 		query,
 		getClient,
@@ -18,10 +15,10 @@ const pgApiWrapper = async (environment: ExecutionEnvironment) => {
 	await verifyConnection();
 
 	// const getters = getGetters(query, getClient);
-	const setters = getSetters(query, getClient);
+	const dbSetters = getDbSetters(query, getClient);
 
 	return {
 		// getters,
-		setters,
+		dbSetters,
 	};
 };

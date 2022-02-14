@@ -11,6 +11,7 @@ export enum ExecutionEnvironment {
 
 const defaultConfig: PoolConfig = {
 	host: 'localhost',
+	database: 'four_on_five',
 	user: 'postgresUser',
 	password: 'postgresPass',
 	max: 20,
