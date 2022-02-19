@@ -9,11 +9,12 @@ export enum ExecutionEnvironment {
 	TESTING = 'testing',
 }
 
+// TODO testing this
+export const connectionString =
+	'postgresql://postgresUser:postgresPass@localhost:5432/four_on_five';
+
 const defaultConfig: PoolConfig = {
-	host: 'localhost',
-	database: 'four_on_five',
-	user: 'postgresUser',
-	password: 'postgresPass',
+	connectionString,
 	max: 20,
 	idleTimeoutMillis: 30000,
 	connectionTimeoutMillis: 2000,

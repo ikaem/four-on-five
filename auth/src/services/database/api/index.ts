@@ -1,1 +1,1 @@
-export { setters } from './setters';
+export { pgApiWrapper } from './api';

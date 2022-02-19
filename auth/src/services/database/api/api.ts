@@ -1,7 +1,10 @@
-import { pgClient } from '../db';
-import { getDbSetters } from './setters';
+import { getPgClient, ReturnedPromiseResolvedType } from '../db';
+import { getDbGetters } from './get-getters';
+import { getDbSetters } from './get-setters';
 
 // const
+
+export type PgApi = ReturnedPromiseResolvedType<typeof pgApiWrapper>;
 
 export const pgApiWrapper = async () => {
 	const {
@@ -9,16 +12,21 @@ export const pgApiWrapper = async () => {
 		getClient,
 		// TODO test when do we close this
 		// endPool,
-		verifyConnection,
-	} = pgClient;
+		// verifyConnection,
+		connectionString,
+	} = await getPgClient();
 
-	await verifyConnection();
+	// await verifyConnection();
+	// TODO could maybe call some migraiton thing here, too
 
 	// const getters = getGetters(query, getClient);
 	const dbSetters = getDbSetters(query, getClient);
+	const dbGetters = getDbGetters(query, getClient);
 
 	return {
 		// getters,
 		dbSetters,
+		dbGetters,
+		connectionString,
 	};
 };
