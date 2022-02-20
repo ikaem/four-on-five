@@ -15,5 +15,11 @@ export const MutationType = new GraphQLObjectType({
 			},
 			resolve: userSignup,
 		},
+		teamCreate: {
+			type: TeamType,
+			args: {
+				input: new Grapqhl(),
+			},
+		},
 	}),
 });

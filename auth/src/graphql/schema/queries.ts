@@ -9,7 +9,7 @@ import {
 } from 'graphql';
 import { UserSignupArgs } from '../../services/database/api/setters/user-signup';
 import { GQLContext, GQLContextComplete } from '../create-gql-server';
-import { UserAuthResponse } from './type-defs/types/user-auth-type';
+// import { UserAuthResponse } from './type-defs/types/user-auth-type';
 
 // TODO just define fields here as a function
 

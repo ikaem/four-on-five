@@ -1,18 +1,17 @@
 // TODO this could get renamed?
 // add this later
-
+// TODO this is for delete
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import { InMemoryLRUCache, KeyValueCache } from 'apollo-server-caching';
 import DataLoader from 'dataloader';
 import { PgApi } from '../../services/database/api/api';
-import { User } from '../../services/database/models/user';
 import { GQLContext } from '../create-gql-server';
 
 export class DbGettersSource extends DataSource<GQLContext> {
 	dbApi: PgApi;
 	context: GQLContext | undefined;
 	cache: KeyValueCache<string> | undefined;
-	usersLoader: DataLoader<unknown, User, unknown>;
+	usersLoader: DataLoader<unknown, never, unknown>;
 
 	constructor(dbApi: PgApi) {
 		super();
@@ -23,6 +22,7 @@ export class DbGettersSource extends DataSource<GQLContext> {
 
 	initialize(config: DataSourceConfig<GQLContext>) {
 		this.context = config.context;
+		// TODO do log this context at some point to see what is up
 		this.cache = config.cache || new InMemoryLRUCache();
 	}
 

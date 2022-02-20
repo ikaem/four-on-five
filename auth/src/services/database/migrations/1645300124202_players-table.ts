@@ -6,7 +6,7 @@ export const shorthands: ColumnDefinitions | undefined = undefined;
 export async function up(pgm: MigrationBuilder): Promise<void> {
 	pgm.createTable('players', {
 		id: 'id',
-		authId: {
+		auth_id: {
 			// TODO this should be unsigned type
 			type: 'integer',
 			notNull: true,
@@ -14,11 +14,11 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 			onDelete: 'CASCADE',
 		},
 
-		firstName: {
+		first_name: {
 			type: 'text',
 			notNull: true,
 		},
-		lastName: {
+		last_name: {
 			type: 'text',
 			notNull: true,
 		},
@@ -26,17 +26,17 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 			type: 'text',
 			notNull: true,
 		},
-		avatarUrl: {
+		avatar_url: {
 			type: 'text',
 			notNull: false,
 		},
-		createdAt: {
+		created_at: {
 			// TODO is datetime better?
 			type: 'timestamp',
 			notNull: true,
 			default: pgm.func('current_timestamp'),
 		},
-		editedAt: {
+		edited_at: {
 			// TODO is datetime better?
 			type: 'timestamp',
 			notNull: true,

@@ -17,11 +17,14 @@ export type PoolGetClient = PgClient['getClient'];
 export const getPgClient = () => {
 	const ENVIRONMENT = ExecutionEnvironment.DEVELOPMENT;
 	const config = configs[ENVIRONMENT];
+	console.log('config', config);
 	const pool = new Pool(config);
 
 	// TODO not sure here if return will be on T type
+	// TODO not sure if this can ever work?
 	const query = async <T>(query: string, params?: (string | number | boolean | null)[]) =>
 		await pool.query<T>(query, params);
+
 	const getClient = async () => await pool.connect();
 	const endPool = async () => await pool.end();
 	const connectionString = config.connectionString;

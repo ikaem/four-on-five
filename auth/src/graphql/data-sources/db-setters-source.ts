@@ -6,10 +6,11 @@ import { InMemoryLRUCache, KeyValueCache } from 'apollo-server-caching';
 import DataLoader from 'dataloader';
 import { PgApi } from '../../services/database/api/api';
 import { UserSignupArgs } from '../../services/database/api/setters/user-signup';
-import { User } from '../../services/database/models/user';
 import { GQLContext } from '../create-gql-server';
 
 // TODO later, this should not directly extend data source - lets make our own parent one
+// TODO this is for delete
+
 export class DbSettersSource extends DataSource<GQLContext> {
 	dbApi: PgApi;
 	context: GQLContext | undefined;
@@ -18,9 +19,6 @@ export class DbSettersSource extends DataSource<GQLContext> {
 	constructor(dbApi: PgApi) {
 		super();
 		this.dbApi = dbApi;
-		// TODO does this need await?
-		// TODO Tthis is prolly not evne needed with data loader
-		const userSignup = dbApi.dbSetters.userSignup;
 	}
 
 	initialize(config: DataSourceConfig<GQLContext>) {

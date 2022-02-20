@@ -4,8 +4,11 @@ import { DataSources } from 'apollo-server-core/dist/requestPipeline';
 import { ApolloServer, ExpressContext } from 'apollo-server-express';
 // TODO remove apollo server package
 import { pgApiWrapper } from '../services/database/api/api';
+import { AuthApi } from './data-sources/auth-api';
 import { DbGettersSource } from './data-sources/db-getters-source';
 import { DbSettersSource } from './data-sources/db-setters-source';
+import { PlayerApi } from './data-sources/player-api';
+import { TeamApi } from './data-sources/team-api';
 import { schema } from './schema/schema';
 
 // 1. TODO one container that is called GQLContextContainer
@@ -27,8 +30,11 @@ export interface GQLContext {
 
 export interface GQLDataSource extends DataSources<object> {
 	// export interface GQLDataSource {
-	gettersSource: DbGettersSource;
-	settersSource: DbSettersSource;
+	// gettersSource: DbGettersSource;
+	// settersSource: DbSettersSource;
+	teamApi: TeamApi;
+	playerApi: PlayerApi;
+	authApi: AuthApi;
 }
 
 export const createGQLServer = async () => {
@@ -51,9 +57,8 @@ export const createGQLServer = async () => {
 
 	const dataSourcesGenerator = (): GQLDataSource => {
 		return {
-			// TODO i could return setters and getters here
-			gettersSource: new DbGettersSource(pgApi),
-			settersSource: new DbSettersSource(pgApi),
+			teamApi: new TeamApi(pgApi),
+			playerApi: new PlayerApi(pgApi),
 		};
 	};
 

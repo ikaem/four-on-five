@@ -11,7 +11,8 @@
 		"migration-prepare": "node-pg-migrate --envPath ./.env --migrations-dir ./src/services/database/migrations --tsconfig ./tsconfig.json",
 		"migration-dev-up": "npm run migration-prepare up",
 		"migration-dev-down": "npm run migration-prepare down",
-		"migration-generate": "npm run migration-prepare create"
+		"migration-generate": "npm run migration-prepare create",
+		"seed-dev": "ts-node -r dotenv/config ./src/services/database/seeds/main.ts"
 	},
 	"keywords": [],
 	"author": "",

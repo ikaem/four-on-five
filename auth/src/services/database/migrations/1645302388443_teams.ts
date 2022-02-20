@@ -8,6 +8,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 		id: 'id',
 		creator_id: {
 			type: 'integer',
+			// TODO curious if i can use . to point to a specific column
 			references: 'players',
 		},
 		created_at: {
@@ -27,5 +28,8 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 }
 
 export async function down(pgm: MigrationBuilder): Promise<void> {
-	pgm.dropTable('teams');
+	pgm.dropTable('teams', {
+		ifExists: true,
+		cascade: true,
+	});
 }

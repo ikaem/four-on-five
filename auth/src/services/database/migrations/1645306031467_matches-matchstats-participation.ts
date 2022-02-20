@@ -113,7 +113,16 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 }
 
 export async function down(pgm: MigrationBuilder): Promise<void> {
-	pgm.dropTable('matches');
-	pgm.dropTable('match_stats');
-	pgm.dropTable('player_match_participations');
+	pgm.dropTable('matches', {
+		ifExists: true,
+		cascade: true,
+	});
+	pgm.dropTable('match_stats', {
+		ifExists: true,
+		cascade: true,
+	});
+	pgm.dropTable('player_match_participations', {
+		ifExists: true,
+		cascade: true,
+	});
 }
