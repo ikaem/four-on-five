@@ -1,67 +1,52 @@
-// import { JSONSchema, Model, ModelObject, RelationMappings, RelationMappingsThunk } from 'objection';
-// import { Auth } from './auth';
+import { PoolQuery } from '../db';
 
-// interface BuildUserArgs {
-// 	firstName: string;
-// 	lastName: string;
-// }
+export type User = {
+	id: number;
+	firstName: string;
+	lastName: string;
+	// TODO will need some timestamps for created, updated, login
+};
 
-// interface UserAttributes {
-// 	id: number;
-// 	first_name: string;
-// 	last_name: string;
-// 	// TODO should add created dates too
-// }
-// export class User extends Model implements UserAttributes {
-// 	id!: number;
-// 	first_name!: string;
-// 	last_name!: string;
+export class UserTest {
+	private constructor() {
+		// TODO this could be
+		if (new.target === UserTest) throw new Error('This class cannot be instantiated');
+	}
 
-// 	static get tableName() {
-// 		return 'users';
-// 	}
+	// TODO how to get db insite, or the client, or just hte pool?
+	static createUser = async (userArgs: any, client: PoolQuery) => {
+		const query = `
+      insert into users
+        (
+          first_name,
+          last_name,
+          some_timestamps
+        )
+      values 
+        (
+          $1,
+          $2,
+          $3,
+          $4
+        )
+      returning 
+          id,
+          first_name as firstName,
+          last_name as lastName,
+    `;
 
-// 	static get idColumn() {
-// 		return ['id'];
-// 	}
+		// const response = await client.query(query, [userArgs.firstName, userArgs.lastName]);
+		console.log('query', query);
+	};
 
-// 	static get jsonSchema(): JSONSchema {
-// 		return {
-// 			type: 'object',
-// 			required: ['first_name', 'last_name'],
+	static getUsers = async (query: PoolQuery) => {
+		const usersQuery = `
+      select * 
+      from users
+    `;
 
-// 			properties: {
-// 				id: {
-// 					type: 'integer',
-// 				},
-// 				first_name: {
-// 					type: 'string',
-// 				},
-// 				last_name: {
-// 					type: 'string',
-// 				},
-// 			},
-// 		};
-// 	}
+		const { rows } = await query<User>(usersQuery);
 
-// 	// static relationMappings: RelationMappings | RelationMappingsThunk = {
-// 	// 	auth: {
-// 	// 		// used to point to table with foreign key that matches this table's primary key - but is one to one
-// 	// 		relation: Model.HasOneRelation,
-// 	// 		modelClass: Auth,
-// 	// 		join: {
-// 	// 			from: 'users.id',
-// 	// 			to: 'auth.user_id',
-// 	// 		},
-// 	// 	},
-// 	// };
-
-// 	static buildUser = async ({ firstName, lastName }: BuildUserArgs) => {
-// 		const user = await this.query().insert({
-// 			first_name: firstName,
-// 			last_name: lastName,
-// 		});
-
-// 		return user;
-// 	};
-// }
+		return rows;
+	};
+}

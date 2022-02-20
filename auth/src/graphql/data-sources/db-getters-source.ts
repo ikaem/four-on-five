@@ -1,10 +1,11 @@
 // TODO this could get renamed?
+// add this later
 
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import { InMemoryLRUCache, KeyValueCache } from 'apollo-server-caching';
 import DataLoader from 'dataloader';
 import { PgApi } from '../../services/database/api/api';
-import { User } from '../../services/database/models/user-test';
+import { User } from '../../services/database/models/user';
 import { GQLContext } from '../create-gql-server';
 
 export class DbGettersSource extends DataSource<GQLContext> {

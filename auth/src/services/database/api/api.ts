@@ -1,3 +1,5 @@
+import { ENVIRONMENT } from '../../../common';
+import { ExecutionEnvironment } from '../config';
 import { getPgClient, ReturnedPromiseResolvedType } from '../db';
 import { getDbGetters } from './get-getters';
 import { getDbSetters } from './get-setters';
@@ -12,11 +14,14 @@ export const pgApiWrapper = async () => {
 		getClient,
 		// TODO test when do we close this
 		// endPool,
-		// verifyConnection,
+		verifyConnection,
+		migrateLatest,
 		connectionString,
-	} = await getPgClient();
+	} = getPgClient();
 
-	// await verifyConnection();
+	await verifyConnection();
+	// TODO get production node env
+	if (ENVIRONMENT === ExecutionEnvironment.PRODUCTION) await migrateLatest();
 	// TODO could maybe call some migraiton thing here, too
 
 	// const getters = getGetters(query, getClient);
@@ -24,7 +29,6 @@ export const pgApiWrapper = async () => {
 	const dbGetters = getDbGetters(query, getClient);
 
 	return {
-		// getters,
 		dbSetters,
 		dbGetters,
 		connectionString,
