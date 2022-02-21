@@ -1,5 +1,4 @@
 import { PoolClient } from 'pg';
-import { PoolQuery } from '../db';
 
 export interface AuthAttributes {
 	id: number;
@@ -13,7 +12,7 @@ export interface AuthAttributes {
 	lastLogin: string;
 }
 
-export interface AuthCreateArgs {
+export interface CreateAuthArgs {
 	email: string;
 	password?: string;
 	// TODO will be enum eventually
@@ -22,7 +21,7 @@ export interface AuthCreateArgs {
 
 export class Auth {
 	static createAuth = async (
-		{ email, password = '', authType }: AuthCreateArgs,
+		{ email, password = '', authType }: CreateAuthArgs,
 		// TODO caller has responsibility to close the client?
 		client: PoolClient
 	): Promise<AuthAttributes> => {

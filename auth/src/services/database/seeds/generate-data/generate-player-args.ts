@@ -1,8 +1,9 @@
 import faker from '@faker-js/faker';
-import { PlayerCreateArgs } from '../../models/player';
+import { CreatePlayerArgs } from '../../models/player';
 
 export const generatePlayerArgs = () => {
-	const args: Omit<PlayerCreateArgs, 'authId'> = {
+	// TODO rename this to CreatePlayerArgs
+	const args: Omit<CreatePlayerArgs, 'authId'> = {
 		firstName: faker.name.firstName(),
 		lastName: faker.name.lastName(),
 		nick: faker.name.jobDescriptor(),

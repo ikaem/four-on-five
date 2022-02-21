@@ -12,7 +12,7 @@ export interface PlayerAttributes {
 	editedAt: string;
 }
 
-export interface PlayerCreateArgs {
+export interface CreatePlayerArgs {
 	authId: number;
 	firstName: string;
 	lastName: string;
@@ -28,7 +28,7 @@ export class Player {
 			lastName,
 			nick = '',
 			avatarUrl = 'link to some generic avatar',
-		}: PlayerCreateArgs,
+		}: CreatePlayerArgs,
 		client: PoolClient
 	): Promise<PlayerAttributes> => {
 		const createPlayerQuery = `
@@ -69,6 +69,33 @@ export class Player {
 
 		return response.rows[0];
 	};
+
+	// TODO this is for getting all players
+	// TODO later this should be paginated
+	// TODO maybe even if no player ids is passed, we just get all players
+	static getPlayers = async (client: PoolClient) => {
+		const getPlayersQuery = `
+			select 
+				id,
+				auth_id as authId,
+				first_name as firstName,
+				last_name as lastName,
+				nick,
+				avatar_url as avatarUrl,
+				created_at as createdAt,
+				edited_at as editedAt
+			from players
+		`;
+
+		const response = await client.query<PlayerAttributes>(getPlayersQuery);
+
+		return response.rows;
+	};
+
+	// TODO for future
+	// loader before us will get us ids of players and we will just get those players - id does not matter where and from here, to join or anyhting  - just where any
+	// so we just need ids here
+	// static getPlayersThatbelongToWhatverGroup (playerIds: number[])
 
 	static getUsers = (makeQuery: PoolQuery) => {
 		return [];
