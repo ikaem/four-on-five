@@ -9,16 +9,16 @@ export interface PlayerMatchParticipationAttributes {
 	editedAt: string;
 }
 
-export interface PlayerMatchParticipationCreateArgs {
+export interface CreatePlayerMatchParticipationArgs {
 	playerId: number;
 	matchId: number;
-	// TODO optional
-	teamId?: number;
+	// TODO optional - undefined is fine
+	teamId?: number | null;
 }
 
 export class PlayerMatchParticipation {
-	static createMatchStats = async (
-		{ playerId, matchId, teamId }: PlayerMatchParticipationCreateArgs,
+	static createPlayerMatchParticipation = async (
+		{ playerId, matchId, teamId = null }: CreatePlayerMatchParticipationArgs,
 		// TODO caller has responsibility to close the client?
 		client: PoolClient
 	): Promise<PlayerMatchParticipationAttributes> => {

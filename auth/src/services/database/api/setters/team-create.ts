@@ -1,9 +1,9 @@
 import { PoolGetClient } from '../../db';
-import { Team, TeamAttributes, TeamCreateArgs } from '../../models/team';
+import { CreateTeamArgs, Team, TeamAttributes } from '../../models/team';
 
 export const teamCreate =
 	(getClient: PoolGetClient) =>
-	async ({ creatorId, teamName }: TeamCreateArgs): Promise<TeamAttributes> => {
+	async ({ creatorId, teamName }: CreateTeamArgs): Promise<TeamAttributes> => {
 		const client = await getClient();
 
 		try {

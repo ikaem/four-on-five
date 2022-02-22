@@ -12,7 +12,7 @@
 		"migration-dev-up": "npm run migration-prepare up",
 		"migration-dev-down": "npm run migration-prepare down",
 		"migration-generate": "npm run migration-prepare create",
-		"seed-dev": "ts-node -r dotenv/config ./src/services/database/seeds/main.ts"
+		"seed-dev": "ts-node -r dotenv/config ./src/services/database/seeds/seed.ts"
 	},
 	"keywords": [],
 	"author": "",

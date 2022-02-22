@@ -7,6 +7,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 		id: 'id',
 		organizer_id: {
 			type: 'integer',
+			// TODO this needs to be non nullable
 			notNull: false,
 			references: 'players',
 		},

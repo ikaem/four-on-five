@@ -1,8 +1,8 @@
 import { PoolGetClient } from '../../db';
-import { Auth, AuthCreateArgs } from '../../models/auth';
-import { Player, PlayerCreateArgs } from '../../models/player';
+import { Auth, CreateAuthArgs } from '../../models/auth';
+import { CreatePlayerArgs, Player } from '../../models/player';
 
-export type UserSignupArgs = AuthCreateArgs & Omit<PlayerCreateArgs, 'authId'>;
+export type UserSignupArgs = CreateAuthArgs & Omit<CreatePlayerArgs, 'authId'>;
 interface UserSignupAttributes {
 	// TODO not sure what to return here, or how this interface should be called
 	authId: number;

@@ -21,7 +21,7 @@ import { GraphQLID, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'gra
 
 export const UserAuthType = new GraphQLObjectType({
 	// how is this resolved?
-	name: 'UserAuth',
+	name: 'UserAuthType',
 	fields: {
 		authId: {
 			type: new GraphQLNonNull(GraphQLID),

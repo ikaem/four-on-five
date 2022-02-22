@@ -8,25 +8,32 @@ export interface MatchStatsAttributes {
 	editedAt: string;
 }
 
-export interface MatchStatsCreateArgs {
+export interface CreateMatchStatsArgs {
 	matchId: number;
+	// TODO these are optional, in case we are creating a match after it was finished
+	team1Score: number | null;
+	team2Score: number | null;
 	// TODO this could maybe be renamed to acocunt for update too
 }
 
-export class MatchStatus {
+export class MatchStats {
 	static createMatchStats = async (
-		{ matchId }: MatchStatsCreateArgs,
+		{ matchId, team1Score = null, team2Score = null }: CreateMatchStatsArgs,
 		// TODO caller has responsibility to close the client?
 		client: PoolClient
 	): Promise<MatchStatsAttributes> => {
 		const createMatchStatsQuery = `
       insert into match_stats
         (
-					match_id
+					match_id,
+					team_1_score,
+					team_2_score
         )
       values 
         (
           $1,
+          $2,
+          $3
         )
       returning 
 					id,
@@ -36,7 +43,11 @@ export class MatchStatus {
 					edited_at as editedAt
     `;
 
-		const response = await client.query<MatchStatsAttributes>(createMatchStatsQuery, [matchId]);
+		const response = await client.query<MatchStatsAttributes>(createMatchStatsQuery, [
+			matchId,
+			team1Score,
+			team2Score,
+		]);
 
 		return response.rows[0];
 	};
