@@ -1,1 +1,1 @@
-export { PORT } from './env';
+export { PORT, ENVIRONMENT } from './env';
