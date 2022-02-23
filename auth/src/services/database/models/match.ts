@@ -110,4 +110,42 @@ export class Match {
 
 		return response.rows;
 	};
+
+	// TODO this is going to replace the above one eventually
+	// this is just one field on the Full Match type
+
+	// - matches - resolver
+	// - match stats - resolver (match stats for matches - pass matches ids)
+	// - match participations - resolver (participations for matches - pass matches ids )
+	// - organizer - type resolver (organizers for matches - pass organizer ids, resolves to player)
+	// - teams - (teams for matches - pass matches id, returns all team match participatons )
+
+	// this means that we remove team ids from matches, make team match its own model, connect team model to a match, and have players match participations actually a player team match
+	// and then we would connect player team
+
+	static getMatchesForPlayers = async (
+		// TODO should prolly be some default for page and direction and limit
+		{ playerIds, limit, direction, page }: GetMatchesForPlayers,
+		client: PoolClient
+	) => {
+		// TODO this could be a general thing actually - and maybe pg can write this to protect against sql injeciton
+		const whereMap = {
+			players: (playerIds: number[]) => {
+				return `
+					where player
+				
+				
+				`;
+			},
+		};
+	};
+}
+
+// TODO test, move up
+interface GetMatchesForPlayers {
+	playerIds: number[];
+	limit: number;
+	// TODO CREATE TYPE FOR THIS
+	direction: 'asc' | 'desc';
+	page: number;
 }
