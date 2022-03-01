@@ -16,10 +16,16 @@ export const truncateData = async () => {
 	// TODO testing
 	try {
 		await truncateTable('auth');
-		await truncateTable('players');
+		await truncateTable('auth_player');
+		await truncateTable('player_stats');
+
 		await truncateTable('teams');
+		await truncateTable('teams_stats');
+
 		await truncateTable('matches');
 		await truncateTable('match_stats');
+		await truncateTable('team_match');
+		await truncateTable('team_match');
 		await truncateTable('player_match_participations');
 	} catch (err) {
 		console.error(err);
