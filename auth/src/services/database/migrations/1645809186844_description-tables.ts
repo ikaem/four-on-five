@@ -4,31 +4,42 @@ import { MigrationBuilder, ColumnDefinitions } from 'node-pg-migrate';
 export const shorthands: ColumnDefinitions | undefined = undefined;
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
-	pgm.createTable('teams', {
+	pgm.createTable('player_stats', {
 		id: 'id',
-		creator_id: {
+		player_id: {
 			type: 'integer',
-			// TODO curious if i can use . to point to a specific column
+			notNull: true,
 			references: 'players',
 		},
-		created_at: {
-			// TODO is datetime better?
-			type: 'timestamp',
+	});
+	pgm.createTable('team_stats', {
+		id: 'id',
+		team_id: {
+			type: 'integer',
 			notNull: true,
-			default: pgm.func('current_timestamp'),
+			references: 'teams',
 		},
-		edited_at: {
-			// TODO is datetime better?
-			type: 'timestamp',
+	});
+	pgm.createTable('match_stats', {
+		id: 'id',
+		match_id: {
+			type: 'integer',
 			notNull: true,
-			// TODO NOT SURE IF DEFAULT SHOULD BE HERE
-			default: pgm.func('current_timestamp'),
+			references: 'matches',
 		},
 	});
 }
 
 export async function down(pgm: MigrationBuilder): Promise<void> {
-	pgm.dropTable('teams', {
+	pgm.dropTable('player_stats', {
+		ifExists: true,
+		cascade: true,
+	});
+	pgm.dropTable('team_stats', {
+		ifExists: true,
+		cascade: true,
+	});
+	pgm.dropTable('match_stats', {
 		ifExists: true,
 		cascade: true,
 	});

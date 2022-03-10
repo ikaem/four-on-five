@@ -1,14 +1,17 @@
 import { PoolGetClient } from '../../db';
-import { Player, PlayerAttributes } from '../../models/player';
-import { GetTeamsArgs, Team, TeamAttributes } from '../../models/team';
+import { TeamModel } from '../../models/team';
+
+interface TeamsGetArgs {
+	limit: number;
+}
 
 export const teamsGet =
 	(getClient: PoolGetClient) =>
-	async ({ limit }: GetTeamsArgs): Promise<TeamAttributes[]> => {
+	async ({ limit }: TeamsGetArgs) => {
 		const client = await getClient();
 
 		try {
-			return await Team.getTeams({ limit }, client);
+			return await TeamModel.getAll({ limit }, client);
 		} finally {
 			client.release();
 		}

@@ -1,102 +1,69 @@
 import { PoolClient } from 'pg';
+import { ModelCreateAttributes } from './types';
 
-export interface MatchAttributes {
-	id: number;
-	organizerId: number;
-	team1Id: number;
-	team2Id: number;
+export interface MatchModelCreateArgs {
 	matchName: string;
 	description: string;
 	matchDate: string;
-	// TODO this is json
+	location: string;
+}
+
+export interface MatchModelAttributes {
+	id: number;
+	matchName: string;
+	description: string;
+	matchDate: string;
 	location: string;
 	createdAt: string;
 	editedAt: string;
 }
 
-export interface CreateMatchArgs {
-	organizerId: number;
-	team1Id: number | null;
-	team2Id: number | null;
-	matchName: string;
-	description: string;
-	// TODO maybe this is date
-	matchDate: string;
-	// TODO not sure what should I pass in here
-	location: string;
-}
-
-export class Match {
-	static createMatch = async (
-		{
-			organizerId,
-			team1Id = null,
-			team2Id = null,
-			matchName,
-			description,
-			matchDate,
-			location,
-		}: CreateMatchArgs,
-		// TODO caller has responsibility to close the client?
+export class MatchModel {
+	static create = async (
+		{ matchName, description, matchDate, location }: MatchModelCreateArgs,
 		client: PoolClient
-	): Promise<MatchAttributes> => {
-		const createMatchQuery = `
-      insert into matches
-        (
-					organizer_id,
-					team_1_id,
-					team_2_id,
+	) => {
+		const createQuery = `
+			insert into matches
+				(
 					match_name,
 					description,
 					match_date,
 					location
-        )
-      values 
-        (
-          $1,
-          $2,
+				)
+			values 
+				(
+					$1,
+					$2,
 					$3,
-					$4,
-					$5,
-					$6,
-					$7
-        )
-      returning 
+					$4
+				)
+			returning 
 					id,
-					organizer_id as organizerId,
-					team_1_id as team1Id,
-					team_2_id as team2Id,
 					match_name as matchName,
 					description,
 					match_date as matchDate,
 					location,
 					created_at as createdAt,
 					edited_at as editedAt
-    `;
+		`;
 
-		const response = await client.query<MatchAttributes>(createMatchQuery, [
-			organizerId,
-			team1Id,
-			team2Id,
+		const response = await client.query<ModelCreateAttributes<MatchModelAttributes>>(createQuery, [
 			matchName,
 			description,
 			matchDate,
 			location,
 		]);
 
-		return response.rows[0];
+		const result = response.rows[0];
+
+		return result;
 	};
 
-	// TODO this will eventually need to join and return list of its participations - just ids
-	// also, it will eventually maybe need to accept some list of its own ids, so we can get for instance team matches, or player matches
-	// but do this only when we need it
-	static getMatches = async (client: PoolClient) => {
-		const getMatchesQuery = `
-			select
+	static getAll = async (client: PoolClient) => {
+		const getAllQuery = `
+			select 
 				id,
-				organizer_id as organizerId,
-				team_1_id as team1Id,
-				team_2_id as team2Id,
 				match_name as matchName,
 				description,
 				match_date as matchDate,
@@ -106,7 +73,7 @@ export class Match {
 			from matches
 		`;
 
-		const response = await client.query<MatchAttributes>(getMatchesQuery);
+		const response = await client.query<MatchModelAttributes>(getAllQuery);
 
 		return response.rows;
 	};

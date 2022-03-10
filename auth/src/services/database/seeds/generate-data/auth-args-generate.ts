@@ -1,8 +1,8 @@
 import faker from '@faker-js/faker';
-import { CreateAuthArgs } from '../../models/auth';
+import { AuthModelCreateArgs } from '../../models/auth';
 
-export const generateAuthArgs = () => {
-	const args: CreateAuthArgs = {
+export const authArgsGenerate = () => {
+	const args: AuthModelCreateArgs = {
 		email: faker.internet.email(),
 		// TODO make this an enum at some point
 		authType: 'PASSWORD',
