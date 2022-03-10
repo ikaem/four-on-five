@@ -1,4 +1,8 @@
 import { getPgClient } from '../db';
+import { matchInitializeInsert } from './insert-data/match-initialize-insert';
+import { matchPlayersAddInsert } from './insert-data/match-players-add-insert';
+import { matchTeamsAddInsert } from './insert-data/match-teams-add-insert';
+import { teamInitializeInsert } from './insert-data/team-initialize-insert';
 import { userRegisterInsert } from './insert-data/user-register-insert';
 
 const rows = parseInt(process.argv[3]) || 10;
@@ -9,12 +13,11 @@ const seedData = async (rows: number) => {
 
 	try {
 		await userRegisterInsert(getClient, rows);
-
-		// await insertAuthPlayer(getClient, rows);
-		// await insertUsers(getClient, rows);
-		// await insertTeams(getClient);
-		// await insertMatches(getClient);
-		// await insertPlayerMatchParticipations(getClient);
+		// TODO dont need rows here
+		await teamInitializeInsert(getClient);
+		await matchInitializeInsert(getClient);
+		await matchTeamsAddInsert(getClient);
+		await matchPlayersAddInsert(getClient);
 	} catch (err) {
 		console.error(err);
 		// TODO not sure if process exist is correct
