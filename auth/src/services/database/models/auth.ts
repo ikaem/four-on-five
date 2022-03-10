@@ -1,57 +1,52 @@
 import { PoolClient } from 'pg';
+import { ModelCreateAttributes } from './types';
 
-export interface AuthAttributes {
+export interface AuthModelCreateArgs {
+	email: string;
+	password: string | null;
+	// this has to be an enum
+	authType: string;
+}
+
+interface AuthModelAttributes {
 	id: number;
 	email: string;
-	password: string;
-	// TODO this will eventually be an enum actually
 	authType: string;
 	createdAt: string;
 	editedAt: string;
-	// TODO note sure if both edited at and last login are needed
 	lastLogin: string;
 }
 
-export interface CreateAuthArgs {
-	email: string;
-	password?: string;
-	// TODO will be enum eventually
-	authType: string;
-}
-
-export class Auth {
-	static createAuth = async (
-		{ email, password = '', authType }: CreateAuthArgs,
-		// TODO caller has responsibility to close the client?
+export class AuthModel {
+	static create = async (
+		{ email, password, authType }: AuthModelCreateArgs,
 		client: PoolClient
-	): Promise<AuthAttributes> => {
-		const createAuthQuery = `
-      insert into auth
-        (
-          email,
-          password,
-          auth_type
-        )
-      values 
-        (
-          $1,
-          $2,
-          $3
-        )
-      returning 
-          id,
+	) => {
+		const createQuery = `
+			insert into auth
+				(
 					email,
-          created_at as createdAt,
-          edited_at as editedAt,
-					last_login as lastLogin
-    `;
+					password,
+					auth_type
+				)
+			values 
+				(
+					$1,
+					$2,
+					$3
+				)
+			returning 
+				id
+		`;
 
-		const response = await client.query<AuthAttributes>(createAuthQuery, [
+		const response = await client.query<ModelCreateAttributes<AuthModelAttributes>>(createQuery, [
 			email,
 			password,
 			authType,
 		]);
 
-		return response.rows[0];
+		const result = response.rows[0];
+
+		return result;
 	};
 }

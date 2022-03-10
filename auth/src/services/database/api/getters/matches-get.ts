@@ -1,12 +1,12 @@
 import { PoolGetClient } from '../../db';
-import { Match } from '../../models/match';
+import { MatchModel } from '../../models/match';
 
 // TODO in future, this might get optional ids
 export const matchesGet = (getClient: PoolGetClient) => async () => {
 	const client = await getClient();
 
 	try {
-		return await Match.getMatches(client);
+		return await MatchModel.getAll(client);
 	} finally {
 		client.release();
 	}
