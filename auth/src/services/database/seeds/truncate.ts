@@ -16,20 +16,20 @@ export const truncateData = async () => {
 	// TODO testing
 	try {
 		await truncateTable('auth');
-		await truncateTable('players');
+		await truncateTable('player');
 		await truncateTable('player_auth');
-		await truncateTable('player_stats');
+		await truncateTable('player_info');
 
-		await truncateTable('teams');
-		await truncateTable('team_stats');
-		await truncateTable('team_player_roles');
+		await truncateTable('team');
+		await truncateTable('team_info');
+		await truncateTable('team_player_role');
 
-		await truncateTable('matches');
-		await truncateTable('match_stats');
-		await truncateTable('match_player_roles');
+		await truncateTable('match');
+		await truncateTable('match_info');
+		await truncateTable('match_player_role');
 
-		await truncateTable('match_teams');
-		await truncateTable('match_players');
+		await truncateTable('match_team');
+		await truncateTable('match_player_team');
 	} catch (err) {
 		console.error(err);
 		process.exit(1);

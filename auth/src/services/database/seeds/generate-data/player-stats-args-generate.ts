@@ -1,8 +1,8 @@
-import { PlayerStatsModelCreateArgs } from '../../models/player-stats';
+import { PlayerInfoModelCreateArgs } from '../../models/player-info';
 
 // this will get more data later
 export const playerStatsArgsGenerate = (playerId: number) => {
-	const args: PlayerStatsModelCreateArgs = {
+	const args: PlayerInfoModelCreateArgs = {
 		playerId,
 	};
 
