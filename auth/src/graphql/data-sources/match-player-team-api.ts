@@ -5,7 +5,7 @@ export class MatchPlayerTeamApi extends PgDataSource {
 	// async loadPlayers
 
 	// todo just create method here
-	getAllForMatches = (limit: number) => {
+	loadAllForMatches = (limit: number) => {
 		const loader = new DataLoader((ids: readonly number[]) =>
 			this.db.dbGetters.matchPlayerTeamForMatchesGet({ matchIds: ids, limit })
 		);
