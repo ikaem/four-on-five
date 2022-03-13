@@ -9,7 +9,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 		player_id: {
 			type: 'integer',
 			notNull: true,
-			references: 'players',
+			references: 'player',
 		},
 		auth_id: {
 			type: 'integer',
@@ -18,56 +18,56 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 		},
 	});
 
-	pgm.createTable('match_teams', {
+	pgm.createTable('match_team', {
 		// TODO maybe add more fields here later for stats
 		id: 'id',
 		match_id: {
 			type: 'integer',
 			notNull: true,
-			references: 'matches',
+			references: 'match',
 		},
 		team_id: {
 			type: 'integer',
 			notNull: true,
-			references: 'teams',
+			references: 'team',
 		},
 		// a field for is team home , or something like that
 		// proably osme check constraint to make sure that if team id is already in for match id, dont allow
 	});
 
-	pgm.createTable('match_players', {
+	pgm.createTable('match_player_team', {
 		// TODO maybe add more fields here later for stats
 		id: 'id',
 		match_id: {
 			type: 'integer',
 			notNull: true,
-			references: 'matches',
+			references: 'match',
 		},
 		player_id: {
 			type: 'integer',
 			notNull: true,
-			references: 'players',
+			references: 'player',
 		},
-		match_team_id: {
+		team_id: {
 			type: 'integer',
 			notNull: false,
-			references: 'match_teams',
+			references: 'team',
 		},
 		// TODO probably some ccheck constaraint to make sure that if player id already exists for a match team id, dont allow it
 	});
 
-	pgm.createTable('team_player_roles', {
+	pgm.createTable('team_player_role', {
 		// TODO maybe add more fields here later for stats
 		id: 'id',
 		team_id: {
 			type: 'integer',
 			notNull: true,
-			references: 'teams',
+			references: 'team',
 		},
 		player_id: {
 			type: 'integer',
 			notNull: true,
-			references: 'players',
+			references: 'player',
 		},
 		role: {
 			type: 'string',
@@ -76,18 +76,18 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 		},
 	});
 
-	pgm.createTable('match_player_roles', {
+	pgm.createTable('match_player_role', {
 		// TODO maybe add more fields here later for stats
 		id: 'id',
 		match_id: {
 			type: 'integer',
 			notNull: true,
-			references: 'matches',
+			references: 'match',
 		},
 		player_id: {
 			type: 'integer',
 			notNull: true,
-			references: 'players',
+			references: 'player',
 		},
 		role: {
 			type: 'string',
@@ -102,19 +102,19 @@ export async function down(pgm: MigrationBuilder): Promise<void> {
 		ifExists: true,
 		cascade: true,
 	});
-	pgm.dropTable('match_teams', {
+	pgm.dropTable('match_team', {
 		ifExists: true,
 		cascade: true,
 	});
-	pgm.dropTable('match_players', {
+	pgm.dropTable('match_players_team', {
 		ifExists: true,
 		cascade: true,
 	});
-	pgm.dropTable('team_player_roles', {
+	pgm.dropTable('team_player_role', {
 		ifExists: true,
 		cascade: true,
 	});
-	pgm.dropTable('match_player_roles', {
+	pgm.dropTable('match_player_role', {
 		ifExists: true,
 		cascade: true,
 	});

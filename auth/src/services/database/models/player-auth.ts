@@ -27,8 +27,8 @@ export class PlayerAuthModel {
 				)
 			returning 
 					id,
-					player_id as playerId,
-					auth_id as authId
+					player_id as "playerId",
+					auth_id as "authId"
 		`;
 
 		const response = await client.query<ModelCreateAttributes<PlayerAuthModelAttributes>>(

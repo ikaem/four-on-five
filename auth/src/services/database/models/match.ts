@@ -24,7 +24,7 @@ export class MatchModel {
 		client: PoolClient
 	) => {
 		const createQuery = `
-			insert into matches
+			insert into match
 				(
 					match_name,
 					description,
@@ -40,12 +40,12 @@ export class MatchModel {
 				)
 			returning 
 					id,
-					match_name as matchName,
+					match_name as "matchName",
 					description,
-					match_date as matchDate,
+					match_date as "matchDate",
 					location,
-					created_at as createdAt,
-					edited_at as editedAt
+					created_at as "createdAt",
+					edited_at as "editedAt"
 		`;
 
 		const response = await client.query<ModelCreateAttributes<MatchModelAttributes>>(createQuery, [
@@ -64,13 +64,13 @@ export class MatchModel {
 		const getAllQuery = `
 			select 
 				id,
-				match_name as matchName,
+				match_name as "matchName",
 				description,
-				match_date as matchDate,
+				match_date as "matchDate",
 				location,
-				created_at as createdAt,
-				edited_at as editedAt
-			from matches
+				created_at as "createdAt",
+				edited_at as "editedAt"
+			from match
 		`;
 
 		const response = await client.query<MatchModelAttributes>(getAllQuery);

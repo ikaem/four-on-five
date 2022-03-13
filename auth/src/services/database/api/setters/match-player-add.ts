@@ -1,25 +1,25 @@
 import { PoolGetClient } from '../../db';
-import { MatchPlayerModel } from '../../models/match-player';
+import { MatchPlayerTeamModel } from '../../models/match-player-team';
 
 interface MatchPlayerAddArgs {
 	matchId: number;
 	playerId: number;
-	matchTeamId: number | null;
+	teamId: number | null;
 }
 
 export const matchPlayerAdd =
 	(getClient: PoolGetClient) =>
-	async ({ matchId, playerId, matchTeamId }: MatchPlayerAddArgs) => {
+	async ({ matchId, playerId, teamId }: MatchPlayerAddArgs) => {
 		const client = await getClient();
 
 		try {
 			await client.query('begin');
 
-			await MatchPlayerModel.create(
+			await MatchPlayerTeamModel.create(
 				{
 					matchId,
 					playerId,
-					matchTeamId,
+					teamId,
 				},
 				client
 			);

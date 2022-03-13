@@ -7,13 +7,13 @@ import { PgApi } from '../../services/database/api/api';
 import { GQLContext } from '../create-gql-server';
 
 export class PgDataSource extends DataSource {
-	dbApi: PgApi;
+	db: PgApi;
 	context: GQLContext | undefined;
 	cache: KeyValueCache<string> | undefined;
 
 	constructor(dbApi: PgApi) {
 		super();
-		this.dbApi = dbApi;
+		this.db = dbApi;
 	}
 
 	initialize(config: DataSourceConfig<GQLContext>) {
@@ -23,6 +23,7 @@ export class PgDataSource extends DataSource {
 	}
 
 	// TODO what is the type of error
+	// i might want to handle error from the resolver
 	// TODO not sure if need this
 	// didEncounterError(error: Error) {
 	// 	throw error;
@@ -31,6 +32,6 @@ export class PgDataSource extends DataSource {
 	// TODO not sure which type
 	cacheKey(id: string | number) {
 		// TODO could pass general string from en var here
-		return `${this.dbApi.connectionString}-${id}`;
+		return `${this.db.connectionString}-${id}`;
 	}
 }

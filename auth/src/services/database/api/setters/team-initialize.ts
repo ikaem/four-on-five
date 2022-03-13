@@ -1,7 +1,7 @@
 import { PoolGetClient } from '../../db';
 import { TeamModel, TeamModelCreateArgs } from '../../models/team';
 import { TeamPlayerRoleModel, TeamPlayerRoleModelCreateArgs } from '../../models/team-player-role';
-import { TeamStatsModel } from '../../models/team-stats';
+import { TeamInfoModel } from '../../models/team-info';
 
 // TODO more types will be added here eventually
 type TeamInitializeArgs = TeamModelCreateArgs & Omit<TeamPlayerRoleModelCreateArgs, 'teamId'>;
@@ -23,7 +23,7 @@ export const teamInitialize =
 				client
 			);
 
-			await TeamStatsModel.create(
+			await TeamInfoModel.create(
 				{
 					teamId: team.id,
 				},

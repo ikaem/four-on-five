@@ -24,7 +24,7 @@ export class PlayerModel {
 		client: PoolClient
 	) => {
 		const createQuery = `
-		insert into players
+		insert into player
 			(
 				first_name,
 				last_name,
@@ -58,13 +58,13 @@ export class PlayerModel {
 		const getAllQuery = `
 			select 
 				id,
-				first_name as firstName,
-				last_name as lastName,
+				first_name as "firstName",
+				last_name as "lastName",
 				nick,
-				avatar_url as avatarUrl,
-				created_at as createdAt,
-				edited_at as editedAt
-			from players
+				avatar_url as "avatarUrl",
+				created_at as "createdAt",
+				edited_at as "editedAt"
+			from player
 		`;
 
 		const response = await client.query<PlayerModelAttributes>(getAllQuery);

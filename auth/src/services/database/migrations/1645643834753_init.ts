@@ -40,7 +40,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 		},
 	});
 
-	pgm.createTable('players', {
+	pgm.createTable('player', {
 		id: 'id',
 		first_name: {
 			type: 'text',
@@ -73,7 +73,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 		},
 	});
 
-	pgm.createTable('teams', {
+	pgm.createTable('team', {
 		id: 'id',
 		team_name: {
 			type: 'text',
@@ -94,7 +94,7 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 		},
 	});
 
-	pgm.createTable('matches', {
+	pgm.createTable('match', {
 		id: 'id',
 		match_name: {
 			type: 'text',
@@ -135,16 +135,16 @@ export async function down(pgm: MigrationBuilder): Promise<void> {
 		cascade: true,
 	});
 
-	pgm.dropTable('players', {
+	pgm.dropTable('player', {
 		ifExists: true,
 		cascade: true,
 	});
 
-	pgm.dropTable('teams', {
+	pgm.dropTable('team', {
 		ifExists: true,
 		cascade: true,
 	});
-	pgm.dropTable('matches', {
+	pgm.dropTable('match', {
 		ifExists: true,
 		cascade: true,
 	});

@@ -19,7 +19,7 @@ export interface TeamModelGetAllArgs {
 export class TeamModel {
 	static create = async ({ teamName }: TeamModelCreateArgs, client: PoolClient) => {
 		const createQuery = `
-			insert into teams
+			insert into team
 				(
 					team_name
 				)
@@ -41,14 +41,13 @@ export class TeamModel {
 	};
 
 	static getAll = async ({ limit }: TeamModelGetAllArgs, client: PoolClient) => {
-		console.log('limit!!!!!!!!!!!!', limit);
 		const getAllQuery = `
 			select 
 				id,
-				team_name as teamName,
-				created_at as createdAt,
-				edited_at as editedAt
-			from teams
+				team_name as "teamName",
+				created_at as "createdAt",
+				edited_at as "editedAt"
+			from team
 			limit $1
 		`;
 

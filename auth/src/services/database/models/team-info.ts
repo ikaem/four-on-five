@@ -1,23 +1,23 @@
 import { PoolClient } from 'pg';
 import { ModelCreateAttributes } from './types';
 
-interface TeamStatsModelAttributes {
+interface TeamInfoModelAttributes {
 	id: number;
 	teamId: number;
 }
 
-export interface TeamStatsModelCreateArgs {
+export interface TeamInfoModelCreateArgs {
 	teamId: number;
 }
 
-export class TeamStatsModel {
+export class TeamInfoModel {
 	static create = async (
-		{ teamId }: TeamStatsModelCreateArgs,
+		{ teamId }: TeamInfoModelCreateArgs,
 		// TODO caller has responsibility to close the client?
 		client: PoolClient
 	) => {
 		const createQuery = `
-      insert into team_stats
+      insert into team_info
         (
 					team_id
         )
@@ -27,10 +27,10 @@ export class TeamStatsModel {
         )
       returning 
 					id,
-					team_id as teamId
+					team_id as "teamId"
     `;
 
-		const response = await client.query<ModelCreateAttributes<TeamStatsModelAttributes>>(
+		const response = await client.query<ModelCreateAttributes<TeamInfoModelAttributes>>(
 			createQuery,
 			[teamId]
 		);

@@ -21,7 +21,7 @@ export class MatchPlayerRoleModel {
 		client: PoolClient
 	) => {
 		const createQuery = `
-			insert into match_player_roles
+			insert into match_player_role
 				(
 					match_id,
 					player_id,
@@ -35,8 +35,8 @@ export class MatchPlayerRoleModel {
 				)
 			returning 
 					id,
-					match_id as matchId,
-					player_id as playerId,
+					match_id as "matchId",
+					player_id as "playerId",
 					role
 		`;
 

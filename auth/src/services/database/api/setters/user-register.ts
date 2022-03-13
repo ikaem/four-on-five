@@ -2,7 +2,7 @@ import { PoolGetClient } from '../../db';
 import { AuthModel, AuthModelCreateArgs } from '../../models/auth';
 import { PlayerModel, PlayerModelCreateArgs } from '../../models/player';
 import { PlayerAuthModel } from '../../models/player-auth';
-import { PlayerStatsModel } from '../../models/player-stats';
+import { PlayerInfoModel } from '../../models/player-info';
 
 type UserRegisterArgs = AuthModelCreateArgs & PlayerModelCreateArgs;
 
@@ -41,7 +41,7 @@ export const userRegister =
 				client
 			);
 
-			await PlayerStatsModel.create(
+			await PlayerInfoModel.create(
 				{
 					playerId: player.id,
 				},

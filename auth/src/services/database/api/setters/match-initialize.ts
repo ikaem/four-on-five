@@ -4,7 +4,7 @@ import {
 	MatchPlayerRoleModel,
 	MatchPlayerRoleModelCreateArgs,
 } from '../../models/match-player-role';
-import { MatchStatsModel } from '../../models/match-stats';
+import { MatchStatsModel } from '../../models/match-info';
 
 // TODO this does not get any team info - team data for a match will be called differently
 

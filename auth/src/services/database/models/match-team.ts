@@ -25,7 +25,7 @@ export interface MatchTeamModelGetAllForMatchesArgs {
 export class MatchTeamModel {
 	static create = async ({ teamId, matchId }: MatchTeamModelCreateArgs, client: PoolClient) => {
 		const createQuery = `
-			insert into match_teams
+			insert into match_team
 				(
 					match_id,
 					team_id
@@ -56,9 +56,9 @@ export class MatchTeamModel {
 		const getAllQuery = `
 			select 
 				id,
-				match_id as matchId,
-				team_id as teamId,
-			from match_teams
+				match_id as "matchId",
+				team_id as "teamId",
+			from match_team
 			limit $1
 		`;
 
@@ -74,9 +74,9 @@ export class MatchTeamModel {
 		const getAllForMatchesQuery = `
 			select 
 				id,
-				match_id as matchId,
-				team_id as teamId
-			from match_teams
+				match_id as "matchId",
+				team_id as "teamId"
+			from match_team
 			where match_id = any($1)
 			limit $2
 		`;
