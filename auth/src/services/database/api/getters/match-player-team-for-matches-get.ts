@@ -2,14 +2,15 @@ import { PoolGetClient } from '../../db';
 import { MatchPlayerTeamModel } from '../../models/match-player-team';
 
 // this is a connector
-interface MatchPlayerTeamForMatchesGetArgs {
+export interface MatchPlayerTeamForMatchesGetArgs {
 	matchIds: readonly number[];
-	limit: number;
+	// TODO this is temp optional until figure out how to handle it in the loader
+	limit?: number | null;
 }
 
 export const matchPlayerTeamForMatchesGet =
 	(getClient: PoolGetClient) =>
-	async ({ matchIds, limit }: MatchPlayerTeamForMatchesGetArgs) => {
+	async ({ matchIds, limit = null }: MatchPlayerTeamForMatchesGetArgs) => {
 		const client = await getClient();
 
 		try {

@@ -10,7 +10,7 @@ export interface MatchPlayerTeamModelCreateArgs {
 
 export interface MatchPlayerTeamModelGetAllForMatchesArgs {
 	matchIds: readonly number[];
-	limit: number;
+	limit: number | null;
 }
 
 export interface MatchPlayerTeamModelAttributes {
