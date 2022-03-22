@@ -29,16 +29,12 @@ export const getPgClient = () => {
 	const endPool = async () => await pool.end();
 	const connectionString = config.connectionString;
 
-	console.log('test');
-
 	const verifyConnection = async () => {
 		// 	console.log('is this logged');
 		// TODO test the connection
 		const client = await getClient();
 
 		// const client = await pool.connect();
-
-		console.log('after client');
 
 		const connectionTime = await client.query('select now();');
 		client.release();

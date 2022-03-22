@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
-		"target": "es5",
+		"target": "es2015",
+		// TODO test to here
 		"module": "commonjs",
 		"rootDir": "./src",
 		"moduleResolution": "node",

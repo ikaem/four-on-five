@@ -1,10 +1,10 @@
-import { matchesGet } from '../../api/getters/matches-get';
+import { matchesGetAll } from '../../api/getters/matches-get-all';
 import { teamsGet } from '../../api/getters/teams-get';
 import { matchTeamAdd } from '../../api/setters/match-team-add';
 import { PoolGetClient } from '../../db';
 
 export const matchTeamsAddInsert = async (getClient: PoolGetClient) => {
-	const matches = await matchesGet(getClient)();
+	const matches = await matchesGetAll(getClient)();
 	const [team1, team2] = await teamsGet(getClient)({ limit: 2 });
 
 	for (const match of matches) {

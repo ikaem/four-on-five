@@ -35,3 +35,27 @@ export class PgDataSource extends DataSource {
 		return `${this.db.connectionString}-${id}`;
 	}
 }
+
+// export class PgDataSource extends DataSource {
+// export class PgDataSource extends DataSource {
+// 	// export class PgDataSource {
+// 	// db: PgApi;
+// 	context: GQLContext | undefined;
+// 	cache: KeyValueCache<string> | undefined;
+
+// 	constructor(dbApi: PgApi) {
+// 		super();
+// 		// this.db = dbApi;
+// 	}
+
+// 	// initialize(config: DataSourceConfig<GQLContext>) {
+// 	initialize(config: any) {
+// 		this.context = config.context;
+// 		// TODO do log this context at some point to see what is up
+// 		// this.cache = config.cache || new InMemoryLRUCache();
+// 		// this.cache = config.cache;
+// 	}
+// 	moreTest = () => {
+// 		console.log('more test');
+// 	};
+// }

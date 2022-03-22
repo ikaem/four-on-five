@@ -1,11 +1,10 @@
 import { PoolQuery, PoolGetClient } from '../db';
-import { getUsers } from './getters/get-users';
 import { matchPlayerTeamForMatchesGet } from './getters/match-player-team-for-matches-get';
+import { matchesGet } from './getters/matches-get';
 
-export type Getters = ReturnType<typeof getDbGetters>;
+export type Getters = ReturnType<typeof getGetters>;
 
-export const getDbGetters = (query: PoolQuery, getClient: PoolGetClient) => ({
-	getUsers: getUsers(query),
-	// TODO stopped here
+export const getGetters = (query: PoolQuery, getClient: PoolGetClient) => ({
 	matchPlayerTeamForMatchesGet: matchPlayerTeamForMatchesGet(getClient),
+	matchesGet: matchesGet(getClient),
 });

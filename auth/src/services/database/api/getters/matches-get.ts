@@ -1,13 +1,21 @@
 import { PoolGetClient } from '../../db';
 import { MatchModel } from '../../models/match';
 
-// TODO in future, this might get optional ids
-export const matchesGet = (getClient: PoolGetClient) => async () => {
-	const client = await getClient();
+export interface MatchesGetArgs {
+	matchIds: readonly number[];
+	// TODO this is temp optional until figure out how to handle it in the loader
+	limit?: number | null;
+}
 
-	try {
-		return await MatchModel.getAll(client);
-	} finally {
-		client.release();
-	}
-};
+// TODO in future, this might get optional ids
+export const matchesGet =
+	(getClient: PoolGetClient) =>
+	async ({ matchIds, limit = null }: MatchesGetArgs) => {
+		const client = await getClient();
+
+		try {
+			return await MatchModel.get({ matchIds, limit }, client);
+		} finally {
+			client.release();
+		}
+	};

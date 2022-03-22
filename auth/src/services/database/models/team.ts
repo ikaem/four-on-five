@@ -16,6 +16,12 @@ export interface TeamModelGetAllArgs {
 	limit: number;
 }
 
+export interface TeamModelGetForMatchesArgs {
+	matchIds: readonly number[];
+	// TODO not sure if i need this
+	limit: number | null;
+}
+
 export class TeamModel {
 	static create = async ({ teamName }: TeamModelCreateArgs, client: PoolClient) => {
 		const createQuery = `
@@ -55,6 +61,8 @@ export class TeamModel {
 
 		return response.rows;
 	};
+
+	static getForMatches = async({});
 
 	// TODO this is for getting all players
 	// TODO later this should be paginated

@@ -1,4 +1,5 @@
 import DataLoader from 'dataloader';
+import { getResultsMap } from '../../common/utils/get-results-map';
 import { PgApi } from '../../services/database/api/api';
 import { MatchPlayerTeamForMatchesGetArgs } from '../../services/database/api/getters/match-player-team-for-matches-get';
 import { MatchPlayerTeamModelAttributes } from '../../services/database/models/match-player-team';
@@ -12,9 +13,8 @@ export class MatchPlayerTeamApi extends PgDataSource {
 
 		// TODO this should be this.
 		this.allForMatchesLoader = new DataLoader(async (matchIds: readonly number[]) => {
-			const results = await this.db.dbGetters.matchPlayerTeamForMatchesGet({ matchIds: matchIds });
-			const resultsMap = mapResults(results);
-
+			const results = await this.db.getters.matchPlayerTeamForMatchesGet({ matchIds: matchIds });
+			const resultsMap = getResultsMap(results);
 			return matchIds.map((id) => resultsMap[id]);
 		});
 	}
@@ -25,7 +25,7 @@ export class MatchPlayerTeamApi extends PgDataSource {
 
 	// TODO this is only for getting paginated ids for allForMatches - this is to be used in the resolver
 	getAllForMatchesIds = async ({ matchIds, limit }: MatchPlayerTeamForMatchesGetArgs) => {
-		const results = await this.db.dbGetters.matchPlayerTeamForMatchesGet({ matchIds, limit });
+		const results = await this.db.getters.matchPlayerTeamForMatchesGet({ matchIds, limit });
 		return results.map((r) => r.id);
 	};
 
@@ -40,7 +40,8 @@ export class MatchPlayerTeamApi extends PgDataSource {
 
 	// TODO note sure if this is ok?
 	loadAllForMatchesTest = async ({ matchIds, limit }: MatchPlayerTeamForMatchesGetArgs) => {
-		const initialResults = await this.db.dbGetters.matchPlayerTeamForMatchesGet({
+		// TODO this might not even be needed for root?
+		const initialResults = await this.db.getters.matchPlayerTeamForMatchesGet({
 			matchIds,
 			limit,
 		});
@@ -50,15 +51,4 @@ export class MatchPlayerTeamApi extends PgDataSource {
 		// https://github.com/graphql/dataloader/issues/71
 		return await this.allForMatchesLoader.loadMany(ids);
 	};
-}
-
-// TODO move this elsewhere
-function mapResults<T extends { id: number }>(results: T[]): Record<number, T> {
-	const map: Record<number, T> = {};
-
-	for (const result of results) {
-		map[result.id] = result;
-	}
-
-	return map;
 }
