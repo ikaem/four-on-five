@@ -8,6 +8,7 @@ import { PgApi, pgApiWrapper } from '../services/database/api/api';
 import { MatchApi } from './data-sources/match-api';
 import { PgDataSource } from './data-sources/pg-data-source';
 import { PlayerApi } from './data-sources/player-api';
+import { TeamApi } from './data-sources/team-api';
 import { schema } from './schema/schema';
 export interface GQLContextComplete extends GQLContext {
 	dataSources: GQLDataSource;
@@ -25,6 +26,7 @@ export interface GQLContext {
 
 export interface GQLDataSource extends DataSources<object> {
 	matchApi: MatchApi;
+	teamApi: TeamApi;
 }
 
 const contextGenerator: ContextFunction<ExpressContext> = ({ req, res }) => {
@@ -42,6 +44,7 @@ const contextGenerator: ContextFunction<ExpressContext> = ({ req, res }) => {
 const dataSourcesGenerator = (pgApi: PgApi): GQLDataSource => {
 	return {
 		matchApi: new MatchApi(pgApi),
+		teamApi: new TeamApi(pgApi),
 	};
 };
 
@@ -66,7 +69,3 @@ export const createGQLServer = async () => {
 
 	return server;
 };
-
-const DateTimeType = new GraphQLScalarType({
-	name: 'DateTimeType',
-});

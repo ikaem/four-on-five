@@ -8,6 +8,8 @@ export interface MatchPlayerTeamForMatchesGetArgs {
 	limit?: number | null;
 }
 
+// TODO probably dont even needs this at all
+
 export const matchPlayerTeamForMatchesGet =
 	(getClient: PoolGetClient) =>
 	async ({ matchIds, limit = null }: MatchPlayerTeamForMatchesGetArgs) => {

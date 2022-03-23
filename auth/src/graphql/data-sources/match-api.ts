@@ -29,8 +29,12 @@ export class MatchApi extends PgDataSource {
 		const initialResults = await this.db.getters.matchesGet({ matchIds, limit });
 		const ids = initialResults.map((r) => r.id);
 
-		// TODO maybe i could use just one to get just one match?
-		return await this.matchesLoader.loadMany(ids);
+		console.log({ ids });
+		const matches = await this.matchesLoader.loadMany(ids);
+
+		console.log({ matches });
+
+		return matches;
 	};
 
 	// TODO this is test

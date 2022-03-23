@@ -1,19 +1,20 @@
 import { GraphQLFieldResolver } from 'graphql';
 import { GQLContextComplete } from '../../../create-gql-server';
 
-interface getMatchArgs {
+// TODO this is test only
+interface getMatchesArgs {
 	// this could be a string too, since using GQL ID
-	id: number;
+	ids: readonly number[];
 }
 
 // TODO move this elsewhere
-export const getMatch: GraphQLFieldResolver<
+export const getMatches: GraphQLFieldResolver<
 	void,
 	GQLContextComplete,
-	getMatchArgs,
+	getMatchesArgs,
 	unknown
-> = async (_parent, { id }, { dataSources }) => {
-	const match = await dataSources.matchApi.loadMatch(id);
+> = async (_parent, { ids }, { dataSources }) => {
+	const matches = await dataSources.matchApi.loadMatches({ matchIds: ids });
 	// const matches = await dataSources.matchApi.loadMatches({ matchIds: [id] });
-	return match;
+	return matches;
 };

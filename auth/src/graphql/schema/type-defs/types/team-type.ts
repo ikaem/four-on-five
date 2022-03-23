@@ -1,17 +1,43 @@
-import { GraphQLID, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
+import {
+	GraphQLFieldConfig,
+	GraphQLID,
+	GraphQLList,
+	GraphQLNonNull,
+	GraphQLObjectType,
+	GraphQLString,
+	ThunkObjMap,
+} from 'graphql';
+import { DateTime } from 'graphql-scalars/typeDefs';
+import { MatchModelAttributes } from '../../../../services/database/models/match';
+import { GQLContextComplete } from '../../../create-gql-server';
+import { DateTimeScalar } from '../custom/date-time-scalar';
+import { LocationType } from '../custom/location-type';
+import { MatchType } from './match-type';
 
 export const TeamType = new GraphQLObjectType({
-	// how is this resolved?
+	// TODO put description here too
 	name: 'TeamType',
-	fields: {
+	fields: getFields(),
+});
+
+// TODO getMatchArgs could be args type here?
+function getFields(): ThunkObjMap<GraphQLFieldConfig<any, any, any>> {
+	// resolver for these basic fields will be defined in the query here - this is top query anyhow?
+	return {
 		id: {
 			type: new GraphQLNonNull(GraphQLID),
 		},
-		// creator: {
-		// TODO player type does not exist yet
-		// type: new GraphQLNonNull(PlayerType),
-		// resolve:
-		// TODO would i need to resolve it here, or this will call resolver on the player type, whern we pass it
+		teamName: {
+			type: new GraphQLNonNull(GraphQLString),
+		},
+		createdAt: {
+			type: new GraphQLNonNull(DateTimeScalar),
+		},
+		editedAt: {
+			type: new GraphQLNonNull(DateTimeScalar),
+		},
+		// matches: {
+		// 	type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(MatchType))),
 		// },
-	},
-});
+	};
+}

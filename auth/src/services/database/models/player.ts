@@ -18,6 +18,12 @@ interface PlayerModelAttributes {
 	editedAt: string;
 }
 
+export interface PlayerModelGetForMatchesArgs {
+	matchIds: readonly number[];
+	// TODO not sure if i need this
+	limit: number | null;
+}
+
 export class PlayerModel {
 	static create = async (
 		{ firstName, lastName, nick, avatarUrl }: PlayerModelCreateArgs,
@@ -72,46 +78,33 @@ export class PlayerModel {
 		return response.rows;
 	};
 
-	// maybe letter for some else
-	// so whatever is for, this is what we are passing ids of
-	static getAllForMatches = async () => {
-		// this goes get all players for matches ids
-		// get all players
-		// join match-team-player on mtp.player id = player id
-		// join match-team on mt.id = mtp.match_team_id
-		// join match on m.id = mt.match_id
-		// where m.id = any(matchids)
-		//
+	static getForMatches = async (
+		{ matchIds, limit = null }: PlayerModelGetForMatchesArgs,
+		client: PoolClient
+	) => {
+		const getForMatchesQuery = `
+			select 
+				p.id,
+				p.first_name as "firstName",
+				p.last_name as "lastName",
+				p.nick,
+				p.avatar_url as "avatarUrl",
+				p.created_at as "createdAt" ,
+				p.edited_at as "editedAt"
+			from 
+				player p 
+			join 
+				match_player_team mpt on p.id = mpt.player_id 
+			join "match" m on mpt.match_id = m.id
+			where
+				m.id = any($1);
+		`;
+
+		const response = await client.query<PlayerModelAttributes>(getForMatchesQuery, [
+			matchIds,
+			limit,
+		]);
+
+		return response.rows;
 	};
-
-	// TODO this is for getting all players
-	// TODO later this should be paginated
-	// TODO maybe even if no player ids is passed, we just get all players
-	// static getPlayers = async (client: PoolClient) => {
-	// 	const getPlayersQuery = `
-	// 		select
-	// 			id,
-	// 			auth_id as authId,
-	// 			first_name as firstName,
-	// 			last_name as lastName,
-	// 			nick,
-	// 			avatar_url as avatarUrl,
-	// 			created_at as createdAt,
-	// 			edited_at as editedAt
-	// 		from players
-	// 	`;
-
-	// 	const response = await client.query<PlayerAttributes>(getPlayersQuery);
-
-	// 	return response.rows;
-	// };
-
-	// // TODO for future
-	// // loader before us will get us ids of players and we will just get those players - id does not matter where and from here, to join or anyhting  - just where any
-	// // so we just need ids here
-	// // static getPlayersThatbelongToWhatverGroup (playerIds: number[])
-
-	// static getUsers = (makeQuery: PoolQuery) => {
-	// 	return [];
-	// };
 }

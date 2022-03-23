@@ -73,7 +73,7 @@ export class MatchModel {
 
 	static get = async ({ matchIds, limit = null }: MatchModelGetArgs, client: PoolClient) => {
 		const getQuery = `
-			select 
+			select
 				id,
 				match_name as "matchName",
 				description,
@@ -88,10 +88,28 @@ export class MatchModel {
 
 		// TODO this thing will actually automatically parse json for location
 		const response = await client.query<MatchModelAttributes>(getQuery, [matchIds, limit]);
-		console.log({ response: response.rows[0] });
-
 		return response.rows;
 	};
+
+	// static get = async ({ matchIds, limit = null }: MatchModelGetArgs, client: PoolClient) => {
+	// 	const test = null;
+	// 	const getQuery = `
+	// 		select
+	// 			id,
+	// 			match_name as "matchName",
+	// 			description,
+	// 			match_date as "matchDate",
+	// 			location,
+	// 			created_at as "createdAt",
+	// 			edited_at as "editedAt"
+	// 		from match
+	// 		where id != any($1)
+	// 	`;
+
+	// 	// TODO this thing will actually automatically parse json for location
+	// 	const response = await client.query<MatchModelAttributes>(getQuery, [test]);
+	// 	return response.rows;
+	// };
 
 	static getAll = async (client: PoolClient) => {
 		const getAllQuery = `

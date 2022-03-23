@@ -5,7 +5,7 @@ export interface TeamModelCreateArgs {
 	teamName: string;
 }
 
-interface TeamModelAttributes {
+export interface TeamModelAttributes {
 	id: number;
 	teamName: string;
 	createdAt: string;
@@ -62,25 +62,35 @@ export class TeamModel {
 		return response.rows;
 	};
 
-	static getForMatches = async({});
+	// TODO there probably wont be any limit here? bc how to limit teams on a match? possibly though, sure...
+	static getForMatches = async (
+		{ matchIds, limit = null }: TeamModelGetForMatchesArgs,
+		client: PoolClient
+	) => {
+		const getForMatchesQuery = `
+			select
+				t.id,
+				t.team_name as "teamName",
+				t.created_at as "createdAt",
+				t.edited_at as "editedAt" 
+			from
+				team t
+			join match_team mt on
+				t.id = mt.team_id
+			join "match" m on
+				mt.match_id = m.id
+			where
+				m.id = any($1)
+			group by 
+				t.id,
+				t.team_name,
+				t.created_at,
+				t.edited_at 
+			limit $2
+		`;
 
-	// TODO this is for getting all players
-	// TODO later this should be paginated
-	// // TODO maybe even if no player ids is passed, we just get all players
-	// static getTeams = async ({ limit }: GetTeamsArgs, client: PoolClient) => {
-	// 	const getTeamsQuery = `
-	// 		select
-	// 			id,
-	// 			creator_id as creatorId,
-	// 			team_name as teamName,
-	// 			created_at as createdAt,
-	// 			edited_at as editedAt
-	// 		from teams
-	// 		limit $1
-	// 	`;
+		const response = await client.query<TeamModelAttributes>(getForMatchesQuery, [matchIds, limit]);
 
-	// 	const response = await client.query<TeamAttributes>(getTeamsQuery, [limit]);
-
-	// 	return response.rows;
-	// };
+		return response.rows;
+	};
 }
